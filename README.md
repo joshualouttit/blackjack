@@ -1,2 +1,2 @@
 # blackjack
-Play blackjack printed to the terminal
+Play blackjack printed to the terminal writting in c++
