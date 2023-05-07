@@ -4,5 +4,7 @@
 #define CARDS_IN_DECK 52
 #define CASINO_SHUFFLE 50
 #define BUSTED true
+#define LOGGED_IN true
+
 
 #endif

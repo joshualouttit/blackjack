@@ -144,17 +144,19 @@ void printHand(hand *player) {
 }
 
 
-//Login and registration
+//Registration
 void registerUser () {
-    std::filesystem::path directory = "users";
-    std::filesystem::create_directory(directory);
-    
     std::string username;
     std::cout << "Create Username: ";
     std::cin >> username;
 
-    //Check if username already taken
-    
+    //Check if username already taken (file exists or not)
+    std::string user_file_path = "users/" + username + ".txt";
+    std::ifstream file(user_file_path);
+    if (file) {
+        std::cout << "Username already taken." << '\n';
+        return;
+    }
 
     std::string password;
     std::cout << "Enter Password: ";
@@ -164,26 +166,19 @@ void registerUser () {
     std::string verify;
     std::cout << "Verify Password: ";
     std::cin >> verify;
-    verify = sha256(password);
+    verify = sha256(verify);
 
     if (verify != password) {
-        std::cout << "Passwords do not match!";
+        std::cout << "Passwords do not match!\n";
         return;
     }
 
-
+    std::string directory = "users/" + username + ".txt";
     
-    
-    //Check for 
-    std::filesystem::path allusers = directory / ("users.txt");
-    std::ofstream all_users 
-    
-    std::ofstream user_file;
-    std::filesystem::path user_file = directory / (username + ".txt");
-    std::ofstream user_file(user_file);
-    if (user_file.is_open()) {
-        user_file << password;
-        user_file.close();
+    std::ofstream outfile(user_file_path);
+    if (outfile.is_open()) {
+        outfile << password;
+        outfile.close();
         std::cout << "Registered!\n";
     } else {
         std::cout << "Failed to open file for writing";
@@ -202,4 +197,39 @@ std::string sha256(const std::string& input) {
     }
     
     return hashStr;
+}
+
+
+//Login
+std::string logIn () {
+    std::string username;
+    std::cout << "Username: ";
+    std::cin >> username;
+    
+    //Open user file
+    std::string user_file_path = "users/" + username + ".txt";
+    std::ifstream file(user_file_path);
+    
+    //In this case userfile cannot be opened
+    if (!file) {
+        std::cout << "Username not recognised\n";
+        return "\0";
+    }
+    
+    std::string password;
+    std::cout << "Password: ";
+    std::cin >> password;
+    password = sha256(password);
+
+    std::string password_hash;
+    file >> password_hash;
+
+    if (password == password_hash) {
+        file.close();
+        return username;
+    } else {
+        std::cout << "Incorrect password\n";
+        file.close();
+        return "\0";
+    }
 }
