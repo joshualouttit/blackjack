@@ -48,12 +48,15 @@ private:
 
 class hand {
 public:
+    //Variables
     std::string name;
     int number_of_cards;
     int hand_value;
     bool bust;
     int number_aces;
     card *cards;
+    hand *next;
+
     hand (std::string player_name);
     void drawCard(deck *draw_from);
     void freeCards();

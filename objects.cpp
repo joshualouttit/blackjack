@@ -120,6 +120,7 @@ hand::hand (std::string player_name) {
     hand_value = 0;
     cards = NULL;
     bust = !BUSTED;
+    hand *next = NULL;
 }
 
 void hand::drawCard(deck *draw_from) {

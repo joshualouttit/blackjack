@@ -4,6 +4,12 @@
 #include <random>
 #include <iomanip>
 #include <string>
+#include <fstream>
+#include <filesystem>
+#include <CommonCrypto/CommonDigest.h>
+
+//Necessary forward declarations
+std::string sha256(const std::string& password);
 
 int cardValue(card_type type) {
     int value = 2;
@@ -137,3 +143,63 @@ void printHand(hand *player) {
     std::cout << "HAND VALUE: " << player->hand_value << " BUSTED? " << player->bust << '\n';
 }
 
+
+//Login and registration
+void registerUser () {
+    std::filesystem::path directory = "users";
+    std::filesystem::create_directory(directory);
+    
+    std::string username;
+    std::cout << "Create Username: ";
+    std::cin >> username;
+
+    //Check if username already taken
+    
+
+    std::string password;
+    std::cout << "Enter Password: ";
+    std::cin >> password;
+    password = sha256(password);
+
+    std::string verify;
+    std::cout << "Verify Password: ";
+    std::cin >> verify;
+    verify = sha256(password);
+
+    if (verify != password) {
+        std::cout << "Passwords do not match!";
+        return;
+    }
+
+
+    
+    
+    //Check for 
+    std::filesystem::path allusers = directory / ("users.txt");
+    std::ofstream all_users 
+    
+    std::ofstream user_file;
+    std::filesystem::path user_file = directory / (username + ".txt");
+    std::ofstream user_file(user_file);
+    if (user_file.is_open()) {
+        user_file << password;
+        user_file.close();
+        std::cout << "Registered!\n";
+    } else {
+        std::cout << "Failed to open file for writing";
+    }
+}
+
+std::string sha256(const std::string& input) {
+    unsigned char hash[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256((const unsigned char*)input.c_str(), (CC_LONG)input.length(), hash);
+    
+    std::string hashStr;
+    char hexChar[3];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; ++i) {
+        snprintf(hexChar, sizeof(hexChar), "%02x", hash[i]);
+        hashStr += hexChar;
+    }
+    
+    return hashStr;
+}
