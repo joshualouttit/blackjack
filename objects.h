@@ -55,13 +55,22 @@ public:
     bool bust;
     int number_aces;
     card *cards;
-    hand *next;
 
     hand (std::string player_name);
     void drawCard(deck *draw_from);
     void freeCards();
 private:
     void valueHand ();
+};
+
+class round {
+public:
+    hand *dealer;
+    hand *player;
+    deck *card_deck;
+
+    round(std::string username);
+    void freeRound();
 };
 
 #endif

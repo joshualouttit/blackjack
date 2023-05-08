@@ -9,7 +9,10 @@
 #define LOGIN 1
 #define REGISTER 2
 #define EXIT_PROGRAM 3
+#define PLAYING true
 
+//Function prototypes
+void playRound(std::string username);
 
 int main () {
     //Login in User
@@ -35,5 +38,39 @@ int main () {
         }
     }
 
+    //Game Loop
+    bool playing = PLAYING;
+    while (playing == PLAYING) {
+        int command;
+        std::cout << "Press 1 to begin game, 2 to exit: ";
+        std::cin >> command;
+
+        if (command == 1) {
+            playRound(username);
+        } else if (command == 2) {
+            playing = !PLAYING;
+        }
+    }
+
+    return 0;
 }
 
+void playRound(std::string username) {
+    class round *round1 = new class round(username);
+
+    std::cout << "Welcome to the game of Blackjack!" << std::endl;
+    std::cout << "================================" << std::endl;
+    std::cout << "Get as close to 21 as possible without going over!" << std::endl;
+    std::cout << "Try to beat the dealer and win the game." << std::endl;
+    std::cout << "Face cards are worth 10, and Aces are worth 1 or 11." << std::endl;
+    std::cout << "Good luck and have fun!" << std::endl;
+    std::cout << "================================" << std::endl;
+
+    round1->dealCards();
+
+
+
+
+    round1->freeRound();
+    delete round1;
+}

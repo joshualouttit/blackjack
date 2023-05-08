@@ -114,13 +114,19 @@ void deck::createDeck () {
     return;
 }
 
-hand::hand (std::string player_name) {
+hand::hand (std::string player_name, bool dealer) {
     name = player_name;
     number_of_cards = 0;
     hand_value = 0;
     cards = NULL;
     bust = !BUSTED;
     hand *next = NULL;
+
+    if (dealer == DEALER) {
+        dealer_flag = DEALER;
+    } else {
+        dealer_flag = !DEALER;
+    }
 }
 
 void hand::drawCard(deck *draw_from) {
@@ -203,4 +209,46 @@ void hand::valueHand () {
     if (hand_value > 21) {
         bust = BUSTED;
     }
+}
+
+round::round(std::string username) {
+    //Allocate memory for dealer, player, card_deck
+    //(Creating objects)
+
+    //Create hands and allocate names
+    hand *house = new hand("house", DEALER);
+    hand *player1 = new hand(username, !DEALER);
+
+    //create deck and shuffle
+    deck *card_stack = new deck;
+    card_stack->shuffle(CASINO_SHUFFLE);
+
+    //Mark all attributes to round
+    dealer = house;
+    player = player1;
+    card_deck = card_stack;
+}
+
+void round::freeRound() {
+    //Free internal parts of objects
+    dealer->freeCards();
+    player->freeCards();
+    card_deck->freeCards();
+    
+    //Free want pointers are pointing too
+    delete dealer;
+    delete player;
+    delete card_deck;
+
+    //Set attributes to NULL
+    dealer = NULL;
+    player = NULL;
+    card_deck = NULL;
+}
+
+void round::dealCards() {
+    player->drawCard(card_deck);
+    dealer->drawCard(card_deck);
+    player->drawCard(card_deck);
+    dealer->drawCard(card_deck);
 }
