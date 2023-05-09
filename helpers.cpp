@@ -10,6 +10,9 @@
 
 //Necessary forward declarations
 std::string sha256(const std::string& password);
+void printCards(hand *_hand);
+std::string cardName(card *_card);
+std::string suitIcon(card *_card);
 
 int cardValue(card_type type) {
     int value = 2;
@@ -143,6 +146,206 @@ void printHand(hand *player) {
     std::cout << "HAND VALUE: " << player->hand_value << " BUSTED? " << player->bust << '\n';
 }
 
+void printRound(class round *round1) {
+    //Print Dealers Cards
+    std::cout << "HOUSE CARDS\n";
+    printCards(round1->dealer);
+    if (round1->dealer->bust == BUSTED) {
+        std::cout << "BUSTED\n";
+    } else if (round1->dealer->dealer_flag != DEALER) {
+        std::cout << "Value: " << round1->dealer->hand_value;
+    } else {
+        std::cout << '\n';
+    }
+
+    std::cout << "\n\n\n";
+
+    //Print Player Cards
+    printCards(round1->player);
+    if (round1->player->bust == BUSTED) {
+        std::cout << "BUSTED\n";
+    } else {
+        std::cout << "Value: " << round1->player->hand_value << '\n';
+    }
+}
+
+void printCards(hand *_hand) {
+    int number_of_cards = _hand->number_of_cards;
+    card *cards = _hand->cards;
+
+    for (int i = 0; i < number_of_cards; i++) {
+        std::cout << "+---------+   ";
+    }
+    std::cout << '\n';
+
+    for (int i = 0; i < number_of_cards; i++) {
+        //This first if clause is because the first card goes face down
+        if (
+            _hand->dealer_flag == DEALER &&
+            i == 0
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::cout << "|         |   ";
+        }
+    }
+    std::cout << '\n';
+    
+    while (cards != NULL) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            cards == _hand->cards
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::string suit_icon = suitIcon(cards);
+            std::cout << "|  " << std::left << std::setw(6) << suit_icon << "   |   ";
+        }
+        cards = cards->next;
+    }
+    std::cout << '\n';
+    cards = _hand->cards;
+    
+    for (int i = 0; i < number_of_cards; i++) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            i == 0
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::cout << "|         |   ";
+        }
+    }
+    std::cout << '\n';
+
+    while (cards != NULL) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            cards == _hand->cards
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::string suit_icon = suitIcon(cards);
+            std::string card_name = cardName(cards);
+            std::cout << "| " << std::left << std::setw(5) << card_name << " " << suit_icon << " |   ";
+        }
+        cards = cards->next;
+    }
+    std::cout << '\n';
+    cards = _hand->cards;
+
+    for (int i = 0; i < number_of_cards; i++) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            i == 0
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::cout << "|         |   ";
+        }
+    }
+    std::cout << '\n';
+
+    while(cards != NULL) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            cards == _hand->cards
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::string suit_icon = suitIcon(cards);
+            std::cout << "|   " << std::left << std::setw(6) << suit_icon << "  |   ";
+        }
+        cards = cards->next;
+    }
+    std::cout << '\n';
+    cards = _hand->cards;
+    
+    for (int i = 0; i < number_of_cards; i++) {
+        if (
+            _hand->dealer_flag == DEALER &&
+            i == 0
+        ) {
+            std::cout << "|+++++++++|   ";
+        } else {
+            std::cout << "|         |   ";
+        }
+    }
+    std::cout << '\n';
+    cards = _hand->cards;
+
+    for (int i = 0; i < number_of_cards; i++) {
+        std::cout << "+---------+   ";
+    }
+    std::cout << '\n';
+}
+
+std::string cardName(card *_card) {
+    std::string card_name;
+    switch (_card->type) {
+        case ace:
+            card_name = "Ace";
+            break;
+        case two:
+            card_name = "2";
+            break;
+        case three:
+            card_name = "3";
+            break;
+        case four:
+            card_name = "4";
+            break;
+        case five:
+            card_name = "5";
+            break;
+        case six:
+            card_name = "6";
+            break;
+        case seven:
+            card_name = "7";
+            break;
+        case eight:
+            card_name = "8";
+            break;
+        case nine:
+            card_name = "9";
+            break;
+        case ten:
+            card_name = "10";
+            break;
+        case jack:
+            card_name = "Jack";
+            break;
+        case queen:
+            card_name = "Queen";
+            break;
+        case king:
+            card_name = "King";
+            break;
+    }
+
+    return card_name;
+}
+
+std::string suitIcon(card *_card) {
+    std::string suit_icon;
+    switch (_card->card_suit) {
+        case heart:
+            suit_icon = "♥";
+            break;
+        case diamond:
+            suit_icon = "♦";
+            break;
+        case club:
+            suit_icon = "♣";
+            break;
+        case spade:
+            suit_icon = "♠";
+            break;
+    }
+
+    return suit_icon;
+}
 
 //Registration
 void registerUser () {
@@ -231,5 +434,23 @@ std::string logIn () {
         std::cout << "Incorrect password\n";
         file.close();
         return "\0";
+    }
+}
+
+void printEndGame (std::string flag, int player_value, int dealer_value, bool bust) {
+    if (bust == BUSTED) {
+        std::cout << "OVER 21!\nYOU LOSE!\nGAMEOVER :)\n";
+    } else if (
+        dealer_value > 21
+    ) {
+        std::cout << "THE DEALER WENT BUST!\n";
+    } else if (
+        player_value > dealer_value
+    ) {
+        std::cout << "YOU HAVE " << player_value << " against the dealers " << dealer_value << "\n";
+        std::cout << "YOU WIN!\n";
+    } else {
+        std::cout << "YOU HAVE " << player_value << " against the dealers " << dealer_value << "\n";
+        std::cout << "YOU LOSE\n";
     }
 }

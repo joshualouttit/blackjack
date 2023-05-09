@@ -3,6 +3,8 @@
 
 #include <string>
 
+#define DEALER 1
+
 //ENUMS
 enum card_type {
     ace,
@@ -53,10 +55,11 @@ public:
     int number_of_cards;
     int hand_value;
     bool bust;
+    bool dealer_flag;
     int number_aces;
     card *cards;
 
-    hand (std::string player_name);
+    hand (std::string player_name, bool dealer);
     void drawCard(deck *draw_from);
     void freeCards();
 private:
@@ -71,6 +74,7 @@ public:
 
     round(std::string username);
     void freeRound();
+    void dealCards();
 };
 
 #endif

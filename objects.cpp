@@ -194,7 +194,6 @@ void hand::valueHand () {
         int test_value = hand_value;
         for(int i = 1; i <= number_aces; i++) {
             //Idea is that we change an ace to a 1
-            std::cout << "Are we taking this step?\n";
             
             test_value -= (10 * i);
             if (
@@ -251,4 +250,6 @@ void round::dealCards() {
     dealer->drawCard(card_deck);
     player->drawCard(card_deck);
     dealer->drawCard(card_deck);
+
+    return;
 }

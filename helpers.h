@@ -14,5 +14,10 @@ void printCard(card_type type, suit card_suit);
 void registerUser ();
 std::string sha256(const std::string& password);
 std::string logIn ();
+void printRound(class round *round1);
+void printCards(hand *_hand);
+std::string cardName(card *_card);
+std::string suitIcon(card *_card);
+void printEndGame (std::string flag, int player_value, int dealer_value, bool bust);
 
 #endif

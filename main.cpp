@@ -56,8 +56,8 @@ int main () {
 }
 
 void playRound(std::string username) {
+    //Begin Round
     class round *round1 = new class round(username);
-
     std::cout << "Welcome to the game of Blackjack!" << std::endl;
     std::cout << "================================" << std::endl;
     std::cout << "Get as close to 21 as possible without going over!" << std::endl;
@@ -65,12 +65,57 @@ void playRound(std::string username) {
     std::cout << "Face cards are worth 10, and Aces are worth 1 or 11." << std::endl;
     std::cout << "Good luck and have fun!" << std::endl;
     std::cout << "================================" << std::endl;
-
     round1->dealCards();
+    printRound(round1);
 
+    //ROUND MECHANICS
+    //User decisions
+    int command;
+    std::cout << "1 to draw, 2 to sit: ";
+    std::cin >> command;
+    while (command != 2) {
+        
+        if (command == 1) {
+            round1->player->drawCard(round1->card_deck);
+            printRound(round1);
+        }
 
+        if (round1->player->bust == BUSTED) {
+            printEndGame("loss", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
+            round1->freeRound();
+            delete round1;
+            return;
+        }
 
+        std::cout << "1 to draw, 2 to sit: ";
+        std::cin >> command;
+    }
 
+    //Undoing this will print the dealers cards face up now
+    round1->dealer->dealer_flag = !DEALER;
+
+    //Automation
+    if (round1->dealer->hand_value < round1->player->hand_value) {
+        while (round1->dealer->hand_value < round1->player->hand_value) {
+            round1->dealer->drawCard(round1->card_deck);
+            printRound(round1);
+
+            if (round1->dealer->bust == BUSTED) {
+                printEndGame("win", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
+                round1->freeRound();
+                delete round1;
+                return;
+            }
+        }
+    } else {
+        printRound(round1);
+        printEndGame("win", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
+        round1->freeRound();
+        delete round1;
+        return;
+    }
+
+    //End Round
     round1->freeRound();
     delete round1;
 }
