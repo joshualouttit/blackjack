@@ -148,6 +148,14 @@ void printHand(hand *player) {
 
 void printRound(class round *round1) {
     //Print Dealers Cards
+    std::cout << "Welcome to the game of Blackjack! - (Adjust your terminal window so this is the highest line for the best experience)" << std::endl;
+    std::cout << "================================" << std::endl;
+    std::cout << "Get as close to 21 as possible without going over!" << std::endl;
+    std::cout << "Try to beat the dealer and win the game." << std::endl;
+    std::cout << "Face cards are worth 10, and Aces are worth 1 or 11." << std::endl;
+    std::cout << "Good luck and have fun!" << std::endl;
+    std::cout << "================================" << std::endl;
+    
     std::cout << "HOUSE CARDS\n";
     printCards(round1->dealer);
     if (round1->dealer->bust == BUSTED) {
@@ -449,8 +457,9 @@ void printEndGame (std::string flag, int player_value, int dealer_value, bool bu
     ) {
         std::cout << "YOU HAVE " << player_value << " against the dealers " << dealer_value << "\n";
         std::cout << "YOU WIN!\n";
-    } else {
+    } else if (player_value < dealer_value) {
         std::cout << "YOU HAVE " << player_value << " against the dealers " << dealer_value << "\n";
         std::cout << "YOU LOSE\n";
+    } else if (player_value == dealer_value) {
     }
 }

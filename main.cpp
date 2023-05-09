@@ -5,6 +5,8 @@
 #include "objects.h"
 #include "helpers.h"
 #include "constants.h"
+#include <thread>
+#include <chrono>
 
 #define LOGIN 1
 #define REGISTER 2
@@ -58,13 +60,6 @@ int main () {
 void playRound(std::string username) {
     //Begin Round
     class round *round1 = new class round(username);
-    std::cout << "Welcome to the game of Blackjack!" << std::endl;
-    std::cout << "================================" << std::endl;
-    std::cout << "Get as close to 21 as possible without going over!" << std::endl;
-    std::cout << "Try to beat the dealer and win the game." << std::endl;
-    std::cout << "Face cards are worth 10, and Aces are worth 1 or 11." << std::endl;
-    std::cout << "Good luck and have fun!" << std::endl;
-    std::cout << "================================" << std::endl;
     round1->dealCards();
     printRound(round1);
 
@@ -99,6 +94,8 @@ void playRound(std::string username) {
         while (round1->dealer->hand_value < round1->player->hand_value) {
             round1->dealer->drawCard(round1->card_deck);
             printRound(round1);
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
 
             if (round1->dealer->bust == BUSTED) {
                 printEndGame("win", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
@@ -116,6 +113,7 @@ void playRound(std::string username) {
     }
 
     //End Round
+    printEndGame("win", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
     round1->freeRound();
     delete round1;
 }
