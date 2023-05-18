@@ -3,7 +3,7 @@
 
 #include <string>
 
-#define DEALER true
+#define DEALER 1
 
 //ENUMS
 enum card_type {

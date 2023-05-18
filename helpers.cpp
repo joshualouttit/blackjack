@@ -188,30 +188,30 @@ void printCards(hand *_hand) {
     printCardLine(_hand, "body");
     printCardLine(_hand, "low_body");
     printCardLine(_hand, "body");
-    printCardLine(_hand, "bottom");
+    printCardLine(_hand, "bot");
 
     return;
 }
 
 void printCardLine(hand *_hand, std::string type) {
-    card *cards = _hand->cards;
+    card *_cards = _hand->cards;
     bool first_card_flag = true;
     if (type == "top" || type == "bot") {
-        while(cards != NULL) {
+        while(_cards != NULL) {
             std::cout << "+---------+   ";
-            cards = cards->next;
+            _cards = _cards->next;
 
-            std::cout << "are we just looping this forever lol?";
             if (
-                cards == NULL &&
+                _cards == NULL &&
                 _hand->next != NULL
             ) {
-                cards = _hand->next->cards;
+                _hand = _hand->next;
+                _cards = _hand->cards;
                 std::cout << "          ";
             }
         }
     } else if (type == "body") {
-        while (cards != NULL) {
+        while (_cards != NULL) {
             if (
                 _hand->dealer_flag == DEALER &&
                 first_card_flag == true
@@ -220,80 +220,84 @@ void printCardLine(hand *_hand, std::string type) {
             } else {
                 std::cout << "|         |   ";
             }
-            cards = cards->next;
+            _cards = _cards->next;
 
             if (
-                cards == NULL &&
+                _cards == NULL &&
                 _hand->next != NULL
             ) {
-                cards = _hand->next->cards;
+                _hand = _hand->next;
+                _cards = _hand->cards;
                 first_card_flag = true;
                 std::cout << "          ";
             }
         }
     } else if (type == "middle") {
-        while (cards != NULL) {
+        while (_cards != NULL) {
             if (
                 _hand->dealer_flag == DEALER &&
                 first_card_flag == true
             ) {
                 std::cout << "|+++++++++|   ";
             } else {
-                std::string suit_icon = suitIcon(cards);
-                std::string card_name = cardName(cards);
+                std::string suit_icon = suitIcon(_cards);
+                std::string card_name = cardName(_cards);
                 std::cout << "| " << std::left << std::setw(5) << card_name << " " << suit_icon << " |   ";
             }
-            cards = cards->next;
+            _cards = _cards->next;
 
             if (
-                cards == NULL &&
+                _cards == NULL &&
                 _hand->next != NULL
             ) {
-                cards = _hand->next->cards;
+                _hand = _hand->next;
+                _cards = _hand->cards;
                 first_card_flag = true;
                 std::cout << "          ";
             }
         }
     } else if (type == "low_body") {
-        while (cards != NULL) {
+        while (_cards != NULL) {
             if (
                 _hand->dealer_flag == DEALER &&
                 first_card_flag == true
             ) {
                 std::cout << "|+++++++++|   ";
             } else {
-                std::string suit_icon = suitIcon(cards);
+                std::string suit_icon = suitIcon(_cards);
                 std::cout << "|   " << std::left << std::setw(6) << suit_icon << "  |   ";
             }
-            cards = cards->next;
+            _cards = _cards->next;
 
             if (
-                cards == NULL &&
+                _cards == NULL &&
                 _hand->next != NULL
             ) {
-                cards = _hand->next->cards;
+                _hand = _hand->next;
+                _cards = _hand->cards;
                 first_card_flag = true;
                 std::cout << "          ";
             }
         }
     } else if (type == "high_body") {
-        while (cards != NULL) {
+        while (_cards != NULL) {
             if (
                 _hand->dealer_flag == DEALER &&
                 first_card_flag == true
             ) {
                 std::cout << "|+++++++++|   ";
             } else {
-                std::string suit_icon = suitIcon(cards);
+                std::string suit_icon = suitIcon(_cards);
                 std::cout << "|  " << std::left << std::setw(6) << suit_icon << "   |   ";
             }
-            cards = cards->next;
+            _cards = _cards->next;
 
             if (
-                cards == NULL &&
+                _cards == NULL &&
                 _hand->next != NULL
             ) {
-                cards = _hand->next->cards;
+                _hand = _hand->next;
+                _cards = _hand->cards;
                 first_card_flag = true;
                 std::cout << "          ";
             }

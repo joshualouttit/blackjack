@@ -167,8 +167,14 @@ void hand::freeCards() {
     return;
 }
 
+
+//POTENTIAL MEMORY PROBLEM HERE
+//If we get 2 4's -> split the hand and then get another 4 on hand 1
+//calling split hands again will lose access to memory of the first split hand
+//attempting to fix now - STATUS - UNFIXED
 void hand::splitHand() {
     //Alter attributes of first hand
+
     number_of_hands += 1;
     number_of_cards = 1;
     
