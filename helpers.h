@@ -16,6 +16,7 @@ std::string sha256(const std::string& password);
 std::string logIn ();
 void printRound(class round *round1);
 void printCards(hand *_hand);
+void printCardLine(hand *_hand, std::string type);
 std::string cardName(card *_card);
 std::string suitIcon(card *_card);
 void printEndGame (std::string flag, int player_value, int dealer_value, bool bust);

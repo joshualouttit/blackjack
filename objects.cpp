@@ -176,6 +176,7 @@ void hand::splitHand() {
     new_hand->number_of_cards = 1;
 
     //Move card over
+    next = new_hand;
     new_hand->cards = cards->next;
     cards->next = NULL;
 

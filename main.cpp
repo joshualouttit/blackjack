@@ -64,11 +64,14 @@ void playRound(std::string username) {
     printRound(round1);
 
     int command;
+
+    /*
     if (round1->player->cards->type == round1->player->cards->next->type) {
 
     } else {
-        
+
     }
+    */
 
     //ROUND MECHANICS
     //User decisions
@@ -79,6 +82,11 @@ void playRound(std::string username) {
         
         if (command == 1) {
             round1->player->drawCard(round1->card_deck);
+            printRound(round1);
+        }
+
+        if (command == 3) {
+            round1->player->splitHand();
             printRound(round1);
         }
 
