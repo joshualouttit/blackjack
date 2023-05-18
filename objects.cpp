@@ -174,17 +174,21 @@ void hand::freeCards() {
 //attempting to fix now - STATUS - UNFIXED
 void hand::splitHand() {
     //Alter attributes of first hand
-
     number_of_hands += 1;
     number_of_cards = 1;
     
     hand *new_hand = new hand(name, dealer_flag);
     new_hand->number_of_cards = 1;
+    new_hand->number_of_hands = number_of_hands + 1;
 
     //Move card over
-    next = new_hand;
     new_hand->cards = cards->next;
     cards->next = NULL;
+
+    //Add new hand correctly (if tmp is NULL will add NULL correctly)
+    hand *tmp = next;
+    next = new_hand;
+    new_hand->next = tmp;
 
     //Revalue current hand
     valueHand();
