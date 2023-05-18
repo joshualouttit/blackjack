@@ -52,18 +52,21 @@ class hand {
 public:
     //Variables
     std::string name;
+    int number_of_hands;
     int number_of_cards;
     int hand_value;
     bool bust;
     bool dealer_flag;
     int number_aces;
     card *cards;
+    hand *next;
 
     hand (std::string player_name, bool dealer);
     void drawCard(deck *draw_from);
     void freeCards();
-private:
+    void splitHand();
     void valueHand ();
+    void freeHand();
 };
 
 class round {

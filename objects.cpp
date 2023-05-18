@@ -116,6 +116,7 @@ void deck::createDeck () {
 
 hand::hand (std::string player_name, bool dealer) {
     name = player_name;
+    number_of_hands = 1;
     number_of_cards = 0;
     hand_value = 0;
     cards = NULL;
@@ -166,6 +167,27 @@ void hand::freeCards() {
     return;
 }
 
+void hand::splitHand() {
+    //Alter attributes of first hand
+    number_of_hands += 1;
+    number_of_cards = 1;
+    
+    hand *new_hand = new hand(name, dealer_flag);
+    new_hand->number_of_cards = 1;
+
+    //Move card over
+    new_hand->cards = cards->next;
+    cards->next = NULL;
+
+    //Revalue current hand
+    valueHand();
+
+    //Value next hand
+    new_hand->valueHand();
+
+    return;
+}
+
 void hand::valueHand () {
     hand_value = 0;
     number_aces = 0;
@@ -210,6 +232,25 @@ void hand::valueHand () {
     }
 }
 
+void hand::freeHand() {
+    //Goal is to free the next hand (and any others) and its cards, 
+    //and then this cards hand. The allocation of the pointer to THIS
+    //HAND will need to be freed in free round function
+
+    //Free current cards 
+    freeCards();
+
+    hand *tmp = next;
+
+    while (tmp != NULL) {
+        tmp->freeCards();
+
+        hand *tmp2 = tmp;
+        tmp = tmp->next;
+        delete tmp2;
+    }
+}
+
 round::round(std::string username) {
     //Allocate memory for dealer, player, card_deck
     //(Creating objects)
@@ -229,12 +270,11 @@ round::round(std::string username) {
 }
 
 void round::freeRound() {
-    //Free internal parts of objects
-    dealer->freeCards();
-    player->freeCards();
+    dealer->freeHand();
+    player->freeHand();
     card_deck->freeCards();
     
-    //Free want pointers are pointing too
+    //Free what pointers are pointing too
     delete dealer;
     delete player;
     delete card_deck;

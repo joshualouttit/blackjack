@@ -63,9 +63,16 @@ void playRound(std::string username) {
     round1->dealCards();
     printRound(round1);
 
+    int command;
+    if (round1->player->cards->type == round1->player->cards->next->type) {
+
+    } else {
+        
+    }
+
     //ROUND MECHANICS
     //User decisions
-    int command;
+    
     std::cout << "1 to draw, 2 to sit: ";
     std::cin >> command;
     while (command != 2) {
