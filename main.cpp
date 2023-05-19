@@ -121,3 +121,35 @@ void playRound(std::string username) {
     round1->freeRound();
     delete round1;
 }
+
+std::string analyseRound(class round *_round) {
+    //First thing to do here is to actually know the rules of blackjack properly
+
+    //Player blackjack wins immediatly unless dealer also has (becomes tie)
+
+    return "NULL";
+}
+
+/*
+Lets assess the rules of blackjack
+Immediate win on blackjack for player (unless) - dealer also has
+
+Player decisions are as follows: (5 options)
+    hit - take card
+    stand - take no more cards
+    doubledown - increase inital bet by 100% and take another card
+    Split - create new hand  (requires another bet) - note you cant hit blackjack on a split
+    surrender - forfiet half the bet and end hand immediately
+    
+    players must stand on 21
+
+Insurance
+    if dealers face up is an ace you can place a bet that the dealer has a blackjack
+    asked before first player plays
+    can be up to half the players bet (on top of bet not separate)
+    if dealer has blackjack insurance pays 2 - 1 
+
+House edge
+    Casino generally has stat advantage of 1%
+    Some casinos play that dealer must hit or stand on a soft 17
+*/
