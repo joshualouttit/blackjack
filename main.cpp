@@ -65,30 +65,19 @@ void playRound(std::string username) {
 
     int command;
 
-    /*
-    if (round1->player->cards->type == round1->player->cards->next->type) {
-
-    } else {
-
-    }
-    */
-
-    //ROUND MECHANICS
-    //User decisions
     
-    std::cout << "1 to draw, 2 to sit: ";
+    std::cout << "1 to draw, 2 to sit, or 3 to split: ";
     std::cin >> command;
     while (command != 2) {
         
         if (command == 1) {
             round1->player->drawCard(round1->card_deck);
-            printRound(round1);
+            
+        } else if (command == 3) {
+            round1->player->splitHand();
         }
 
-        if (command == 3) {
-            round1->player->splitHand();
-            printRound(round1);
-        }
+        printRound(round1);
 
         if (round1->player->bust == BUSTED) {
             printEndGame("loss", round1->player->hand_value, round1->dealer->hand_value, round1->player->bust);
@@ -109,7 +98,7 @@ void playRound(std::string username) {
         while (round1->dealer->hand_value < round1->player->hand_value) {
             round1->dealer->drawCard(round1->card_deck);
             printRound(round1);
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::this_thread::sleep_for(std::chrono::seconds(2));
 
 
             if (round1->dealer->bust == BUSTED) {

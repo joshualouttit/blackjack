@@ -168,21 +168,16 @@ void hand::freeCards() {
 }
 
 
-//POTENTIAL MEMORY PROBLEM HERE
-//If we get 2 4's -> split the hand and then get another 4 on hand 1
-//calling split hands again will lose access to memory of the first split hand
-//attempting to fix now - STATUS - UNFIXED
-
-//Testing shows that this isnt actually the issue:
-//Steps:
-//Printed pointers and list is updating correctly
-//Tested print function - islated issue to the lines:
-//_hand = _hand->next;
-//_cards = _hand->cards
-//Indicates the next hand cards are NULL?
-//Im an idiot - it doesnt print cause im not drawing a card
-//Cant split nothing lmao
 void hand::splitHand() {
+    //Determine if split is allowed
+    if (number_of_cards != 2) {
+        std::cout << "Can't split " << number_of_cards << " cards" << '\n';
+        return;
+    } else if (cards->type != cards->next->type) {
+        std::cout << "Cards must be the same value to split!!\n";
+        return;
+    }
+    
     //Alter attributes of first hand
     number_of_hands += 1;
     number_of_cards = 1;
@@ -197,11 +192,8 @@ void hand::splitHand() {
 
     //Add new hand correctly (if tmp is NULL will add NULL correctly)
     hand *tmp = next;
-    std::cout << "next: " << next << '\n';
     next = new_hand;
-    std::cout << "new_hand is now next from round: " << next << '\n';
     new_hand->next = tmp;
-    std::cout << "new_hand->next is now " << tmp << '\n';
 
     //Revalue current hand
     valueHand();

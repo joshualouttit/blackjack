@@ -221,6 +221,7 @@ void printCardLine(hand *_hand, std::string type) {
                 std::cout << "|         |   ";
             }
             _cards = _cards->next;
+            first_card_flag = false;
 
             if (
                 _cards == NULL &&
@@ -245,6 +246,7 @@ void printCardLine(hand *_hand, std::string type) {
                 std::cout << "| " << std::left << std::setw(5) << card_name << " " << suit_icon << " |   ";
             }
             _cards = _cards->next;
+            first_card_flag = false;
 
             if (
                 _cards == NULL &&
@@ -268,6 +270,7 @@ void printCardLine(hand *_hand, std::string type) {
                 std::cout << "|   " << std::left << std::setw(6) << suit_icon << "  |   ";
             }
             _cards = _cards->next;
+            first_card_flag = false;
 
             if (
                 _cards == NULL &&
@@ -291,6 +294,7 @@ void printCardLine(hand *_hand, std::string type) {
                 std::cout << "|  " << std::left << std::setw(6) << suit_icon << "   |   ";
             }
             _cards = _cards->next;
+            first_card_flag = false;
 
             if (
                 _cards == NULL &&
